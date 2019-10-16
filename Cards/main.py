@@ -62,6 +62,13 @@ def mergesort(arr, key):
 def timsort(arr, key):
     arr.sort(key=key)
 
+def pprint(deck, msg):
+    print(msg)
+    print("-" * 50)
+    for card in deck:
+        print(card)
+    print("-" * 50)
+
 if __name__=='__main__':
     func = None
     if len(sys.argv) == 1:
@@ -79,19 +86,10 @@ if __name__=='__main__':
 
     deck = create_deck()
     random.shuffle(deck)
-    print("shuffled deck")
-    for card in deck:
-        print(card)
-    print('-' * 50)
+    pprint(deck, "Shuffled deck")
    
-    print("Sorted by rank")
     func(deck, key=lambda x: x.rank)
-    for card in deck:
-        print(card)
-    print('-' * 50)
+    pprint(deck, "Sorted by rank")
     
-    print("Sorted by suit")
     func(deck, key=lambda x: x.suit)
-    for card in deck:
-        print(card)
-    print('-' * 50)
+    pprint(deck, "Sorted by suit")
