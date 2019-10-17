@@ -1,0 +1,9 @@
+run:
+    python3 main.py [select | insert | merge]
+
+Without arguments will sort playing cards using Python's builtin Timsort
+If an optional argument is provided the program will instead use the 
+following sorting algorithm:
+    select: Selectionsort
+    insert: Insertionsort
+    merge:  Mergesort
