@@ -1,6 +1,29 @@
 run:
     python3 main.py [select | insert | merge]
 
+Dependencies: matplotlib
+
+Use of virtual environments is recommended with Python to install dependencies
+To create a virtual environment: 
+    virtualenv <Dir>
+    ex. virtualenv env
+
+To activate a virtual environment:
+    source <Dir>/bin/activate
+    ex. source env/bin/activate
+
+When active you will see a (env) prepended to your prompt on the command line
+
+You can now install modules local to the environment. You will only be able to use
+these modules while the virtual environment is active. You will need to use a virtual
+environment to install modules in the linux labs.
+
+To install a module:
+    pip3 install matplotlib
+
+To deactivate virtual environment:
+    deactivate
+
 Without arguments will sort playing cards using Python's builtin Timsort
 If an optional argument is provided the program will instead use the 
 following sorting algorithm:
