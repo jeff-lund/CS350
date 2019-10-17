@@ -8,6 +8,7 @@ void quicksort(int*, int, int);
 int partition(int*, int, int);
 void swap(int*, int, int);
 void pprint(int*, int);
+int default_pivot(int*, int);
 
 int main(int argc, char **argv)
 {
@@ -35,7 +36,7 @@ void quicksort(int arr[], int left, int right)
 
 int partition(int arr[], int left, int right)
 {
-    int pivot = arr[left];
+    int pivot = default_pivot(arr, left);
     int i = left;
     int j = right + 1;
     do
@@ -61,4 +62,9 @@ void pprint(int arr[], int n)
     for(int i = 0; i < n; ++i)
         printf("%d ", arr[i]);
     printf("\n");
+}
+
+int default_pivot(int arr[], int i)
+{
+    return arr[i];
 }
