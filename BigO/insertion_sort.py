@@ -18,11 +18,11 @@ if __name__ == '__main__':
     if len(argv) > 1:
         sz = int(argv[1])
         arr = [randint(1, 1000) for _ in range(sz)]
-        print(arr)
+        #print(arr)
         start = time()
         insertion_sort(arr)
         end = time()
-        print(arr)
+        #print(arr)
         print(end - start)
     else:
         # performs automated testing
