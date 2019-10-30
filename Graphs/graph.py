@@ -43,6 +43,7 @@ animals = ['whale', 'wolverine', 'quokka', 'wolf', 'bear', 'llama',
 vertices = [Vertex(a) for a in animals]
 
 do_dfs = argv[1] == 'dfs'
+do_bfs = argv[1] == 'bfs'
 both = argv[1] == 'both'
 
 n = len(vertices)
@@ -64,6 +65,6 @@ if do_dfs or both:
     # DFS
     print("DFS")
     dfs(vertices)
-if not dfs or both:
+if do_bfs or both:
     print("BFS")
     bfs(vertices)
