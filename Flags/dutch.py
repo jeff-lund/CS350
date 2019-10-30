@@ -17,7 +17,7 @@ def pprint(arr):
             color = BLUE
         else:
             color = WHITE
-        print(color, item, end='')
+        print(color, item, sep='',end=' ')
     print(RESET)
 
 def swap(arr, i, j):
@@ -82,7 +82,10 @@ def better_dutch(colors):
         else:
             mid += 1
 
-r, w, b = map(int, argv[1:4])
+if len(argv) > 2:
+    r, w, b = map(int, argv[1:4])
+else:
+    r = w = b = int(argv[1])
 colors = ['r'] * r + \
         ['w'] * w + \
         ['b'] * b 

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define SIZE 20
+#define SIZE 1000000
 
 void quicksort(int*, int, int);
 int partition(int*, int, int);
@@ -15,11 +15,11 @@ int main(int argc, char **argv)
     srand(time(0));
     int arr[SIZE];
     for(int i = 0; i < SIZE; ++i) {
-        arr[i] = rand() % 1000;
+        arr[i] = rand() % (SIZE * 2);
     }
-    pprint(arr, SIZE);
+    //pprint(arr, SIZE);
     quicksort(arr, 0, SIZE - 1);
-    pprint(arr, SIZE);
+    //pprint(arr, SIZE);
     return 0;
 }
 
