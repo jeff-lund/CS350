@@ -1,0 +1,85 @@
+class AdjVertex:
+    ''' 
+    Vertex of an adjacency list.
+    Holds its label and a list of adjacent vertices in neighbors
+    Each adjcanet vertex is stored with (label, edge weight)
+    '''
+    def __init__(self, label):
+        self.label = label
+        self.neighbors = []
+    
+    def add_edge(self, label, weight):
+        self.neighbors.append((label, weight))
+
+class GraphAdj:
+    def __init__(self, nvertices, edges):
+        '''
+        Creates an adjacency matrix from an edge list
+        Uses a dictionary to hold each vertex. 
+        Key, value ==> label : AdjVertex object
+        '''
+        self.nvertices = nvertices
+        self.vertices = {}
+        for v1, v2, cost in edges:
+            if v1 not in self.vertices.keys():
+                self.vertices[v1] = AdjVertex(v1)
+            self.vertices[v1].add_edge(v2, cost)
+    
+    def __repr__(self):
+        ''' Representation of graph when used in print() statement '''
+        ret = []
+        for vertex in self.vertices:
+            ret.append(vertex +' [' + \
+                    ', '.join(map(str, self.vertices[vertex].neighbors)) \
+                    + ']')
+        return '\n'.join(ret)
+    
+    def prims(self):
+        ''' 
+        Uses Prims algorithm to form a Minimum Spanning Tree of the graph
+        Returns an edge list of the edges in the MST
+        '''
+        pass
+
+class GraphEL:
+    ''' 
+    Edge list representation of a graph
+    The edges argument is a list of tuples (v1, v2, weight)
+    Vertices are not explicitly maintained, only contained with the edge list
+    '''
+    def __init__(self, nvertices, edges):
+        self.edges = edges
+        self.nvertices = nvertices
+
+    def convert_to_adj(self):
+        return GraphAdj(self.nvertices, self.edges)
+
+    def __repr__(self):
+        return '\n'.join(map(str, self.edges))
+
+
+def read_from_file(fname):
+    '''
+    Creates an edge list representation of a graph from a text file in the format
+    <v1>, <v2>, <weight>
+    Assumed to be an undirected graph so we add two edges for each line to represent
+    v1 --> v2 and v2 --> v1
+    '''
+    edges = []
+    with open(fname, 'r') as f:
+        for line in f:
+            # Splits the string into a list "x, y, 3" --> ['x', ' y', ' 3']
+            v1, v2, weight = line.split(',')
+            # Strips white space from the front and back of strings
+            v1 = v1.strip()
+            v2 = v2.strip()
+            # convert weight into numeric value
+            weight = float(weight)
+            # append two tuples as the graph is undirected 
+            edges.append((v1, v2, weight))
+            edges.append((v2, v1, weight))
+    return GraphEL(len(edges) // 2, edges)
+
+if __name__ == '__main__':
+    graph = read_from_file('animals.txt').convert_to_adj()
+    print(graph)
