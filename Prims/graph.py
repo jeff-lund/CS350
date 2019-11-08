@@ -4,7 +4,7 @@ class AdjVertex:
     ''' 
     Vertex of an adjacency list.
     Holds its label and a list of adjacent vertices in neighbors
-    Each adjcanet vertex is stored with (label, edge weight)
+    Each adjacent vertex is stored with (label, edge weight)
     '''
     def __init__(self, label):
         self.label = label
@@ -45,18 +45,23 @@ class GraphAdj:
         while len(mst) != self.nvertices - 1:
             # find min weight edge
             u, v, w = pq.delete_min()
+            # Because we reinsert edges with different priorities we need to make 
+            # sure that one of the vertices is not in the set, otherwise we would
+            # add a cyclic edge.
             while u in tree_vertices and v in tree_vertices:
                 u, v, w = pq.delete_min()
-            # add u* to tree set
+            # we want u to be the new vertex and v to be the vertex that was already
+            # in the tree set so swap if necessary
             if u in tree_vertices:
                 u, v = v, u
+            # add u to Tree set
             tree_vertices.add(u)
-            # expand frontier vertices
+            # expand frontier vertices from u, new vertex 
             for lbl, wt in self.vertices[u].neighbors:
                 if lbl not in tree_vertices:
                     pq.insert((u, lbl, wt))
 
-            # add edge to edge set
+            # add new edge to edge set
             mst.add((u, v, w))
         
         return mst

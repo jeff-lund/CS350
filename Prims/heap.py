@@ -22,12 +22,15 @@ class heap_node:
         return "({}) {}".format(self.priority, self.label)
 
 def left(i):
+    ''' Returns left child of node i '''
     return 2 * i + 1
 
 def right(i):
+    ''' Return right child of node i '''
     return 2 * i + 2
 
 def parent(i):
+    ''' Return the parent of node i '''
     return math.floor(i / 2)
 
 class Heap:
@@ -40,23 +43,31 @@ class Heap:
     def __repr__(self):
         return ' | '.join(map(str, self.heap))
 
+    # overlead len() call on a Heap object
     def __len__(self):
         return len(self.heap)
 
     def build_heap(self):
-        sz = len(self.heap)
-        i = math.floor(sz / 2)
+        ''' create a heap from an unordered array with bottom-up method '''
+        i = math.floor(len(self) / 2)
         while i >= 0:
             self.heapify(i)
             i -= 1
 
     def delete_min(self):
+        ''' 
+        removes and returns the minimum priority node from the heap 
+        while maintaining the heap and shape properties 
+        '''
         self.heap[0], self.heap[-1] = self.heap[-1], self.heap[0]
         ret = self.heap.pop()
         self.heapify(0)
         return ret.v1, ret.v2, ret.priority
 
     def heapify(self, i):
+        '''
+        For node i that roots child heaps enforces the heap property
+        '''
         l = left(i)
         r = right(i)
         sz = len(self.heap) - 1
@@ -73,15 +84,25 @@ class Heap:
             self.heapify(smallest)
 
     def insert(self, vals):
+        '''
+        Inserts a new tuple into the heap and moves into the correct position to maintain
+        the heap and shape properties
+        '''
         self.heap.append(heap_node(*vals))
         index = len(self.heap) - 1
         p = parent(index)
+        # Bubble up the new node until the heap property is satisfied
         while index > 0 and self.heap[index] < self.heap[p]:
             self.heap[index], self.heap[p] = self.heap[p], self.heap[index]
             index = p
             p = parent(p)
 
     def verify_heap(self):
+        '''
+        Verifies that this is in fact a Min-Heap. If the child of any parent
+        is smaller than it then returns False.
+        Returns True otherwise.
+        '''
         for i in range(len(self.heap) // 2):
             if left(i) < len(self.heap):
                 if self.heap[i] > self.heap[left(i)]:
