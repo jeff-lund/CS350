@@ -1,3 +1,5 @@
+from heap import Heap
+
 class AdjVertex:
     ''' 
     Vertex of an adjacency list.
@@ -24,23 +26,50 @@ class GraphAdj:
             if v1 not in self.vertices.keys():
                 self.vertices[v1] = AdjVertex(v1)
             self.vertices[v1].add_edge(v2, cost)
-    
+
+    def prims(self):
+        '''
+        Uses Prims algorithm to create a minimum spanning tree
+        '''
+        # Initialize set of tree vertices with first vertex
+        init_vertex = list(self.vertices.keys())[0]
+        tree_vertices = {init_vertex}
+        # Create priority queue using min-heap with frontier from starting vertex
+        pq = Heap()
+        for lbl, wt in self.vertices[init_vertex].neighbors:
+            pq.insert((init_vertex, lbl, wt))
+
+        # set of the edges of the mst
+        mst = set()
+
+        while len(mst) != self.nvertices - 1:
+            # find min weight edge
+            u, v, w = pq.delete_min()
+            while u in tree_vertices and v in tree_vertices:
+                u, v, w = pq.delete_min()
+            # add u* to tree set
+            if u in tree_vertices:
+                u, v = v, u
+            tree_vertices.add(u)
+            # expand frontier vertices
+            for lbl, wt in self.vertices[u].neighbors:
+                if lbl not in tree_vertices:
+                    pq.insert((u, lbl, wt))
+
+            # add edge to edge set
+            mst.add((u, v, w))
+        
+        return mst
+
     def __repr__(self):
         ''' Representation of graph when used in print() statement '''
         ret = []
         for vertex in self.vertices:
-            ret.append(vertex +' [' + \
+            ret.append(vertex + ' [' + \
                     ', '.join(map(str, self.vertices[vertex].neighbors)) \
                     + ']')
         return '\n'.join(ret)
     
-    def prims(self):
-        ''' 
-        Uses Prims algorithm to form a Minimum Spanning Tree of the graph
-        Returns an edge list of the edges in the MST
-        '''
-        pass
-
 class GraphEL:
     ''' 
     Edge list representation of a graph
@@ -57,7 +86,6 @@ class GraphEL:
     def __repr__(self):
         return '\n'.join(map(str, self.edges))
 
-
 def read_from_file(fname):
     '''
     Creates an edge list representation of a graph from a text file in the format
@@ -67,6 +95,7 @@ def read_from_file(fname):
     '''
     edges = []
     with open(fname, 'r') as f:
+        vertices = set()
         for line in f:
             # Splits the string into a list "x, y, 3" --> ['x', ' y', ' 3']
             v1, v2, weight = line.split(',')
@@ -78,8 +107,20 @@ def read_from_file(fname):
             # append two tuples as the graph is undirected 
             edges.append((v1, v2, weight))
             edges.append((v2, v1, weight))
-    return GraphEL(len(edges) // 2, edges)
+            if v1 not in vertices:
+                vertices.add(v1)
+            if v2 not in vertices:
+                vertices.add(v2)
+    return GraphEL(len(vertices), edges)
 
 if __name__ == '__main__':
     graph = read_from_file('animals.txt').convert_to_adj()
     print(graph)
+    mst = graph.prims()
+    total_weight = 0
+    print("Minimum Spanning Tree")
+    print('-' * 80)
+    for edge in mst:
+        print(edge)
+        total_weight += edge[2]
+    print("Total weight of the tree:", total_weight)
