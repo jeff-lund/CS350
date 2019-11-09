@@ -1,3 +1,4 @@
+from sys import argv, exit
 from heap import Heap
 
 class AdjVertex:
@@ -119,7 +120,10 @@ def read_from_file(fname):
     return GraphEL(len(vertices), edges)
 
 if __name__ == '__main__':
-    graph = read_from_file('animals.txt').convert_to_adj()
+    if len(argv) == 1:
+        print('usage: python3 graph.py <file name>')
+        exit()
+    graph = read_from_file(argv[1]).convert_to_adj()
     print(graph)
     mst = graph.prims()
     total_weight = 0
