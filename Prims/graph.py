@@ -93,7 +93,7 @@ class GraphEL:
         mst = set()
         init_vertex = self.edges[0][0]
         tree_vertices = {init_vertex}
-        while len(mst) != nvertices - 1:
+        while len(mst) != self.nvertices - 1:
             min_edge = None
             min_edge_weight = 9999 # hacky
             # find min weight edge u, v
@@ -149,7 +149,7 @@ if __name__ == '__main__':
     graph = read_from_file(argv[1])
     # Uncomment for adj list
     #graph = graph.convert_to_adj()
-    
+
     mst = graph.prims()
     total_weight = 0
     print("Minimum Spanning Tree")
