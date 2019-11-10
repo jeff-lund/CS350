@@ -2,7 +2,7 @@ from sys import argv, exit
 from heap import Heap
 
 class AdjVertex:
-    ''' 
+    '''
     Vertex of an adjacency list.
     Holds its label and a list of adjacent vertices in neighbors
     Each adjacent vertex is stored with (label, edge weight)
@@ -10,7 +10,7 @@ class AdjVertex:
     def __init__(self, label):
         self.label = label
         self.neighbors = []
-    
+
     def add_edge(self, label, weight):
         self.neighbors.append((label, weight))
 
@@ -18,7 +18,7 @@ class GraphAdj:
     def __init__(self, nvertices, edges):
         '''
         Creates an adjacency matrix from an edge list
-        Uses a dictionary to hold each vertex. 
+        Uses a dictionary to hold each vertex.
         Key, value ==> label : AdjVertex object
         '''
         self.nvertices = nvertices
@@ -46,7 +46,7 @@ class GraphAdj:
         while len(mst) != self.nvertices - 1:
             # find min weight edge
             u, v, w = pq.delete_min()
-            # Because we reinsert edges with different priorities we need to make 
+            # Because we reinsert edges with different priorities we need to make
             # sure that one of the vertices is not in the set, otherwise we would
             # add a cyclic edge.
             while u in tree_vertices and v in tree_vertices:
@@ -57,14 +57,14 @@ class GraphAdj:
                 u, v = v, u
             # add u to Tree set
             tree_vertices.add(u)
-            # expand frontier vertices from u, new vertex 
+            # expand frontier vertices from u, new vertex
             for lbl, wt in self.vertices[u].neighbors:
                 if lbl not in tree_vertices:
                     pq.insert((u, lbl, wt))
 
             # add new edge to edge set
             mst.add((u, v, w))
-        
+
         return mst
 
     def __repr__(self):
@@ -75,9 +75,9 @@ class GraphAdj:
                     ', '.join(map(str, self.vertices[vertex].neighbors)) \
                     + ']')
         return '\n'.join(ret)
-    
+
 class GraphEL:
-    ''' 
+    '''
     Edge list representation of a graph
     The edges argument is a list of tuples (v1, v2, weight)
     Vertices are not explicitly maintained, only contained with the edge list
@@ -88,6 +88,28 @@ class GraphEL:
 
     def convert_to_adj(self):
         return GraphAdj(self.nvertices, self.edges)
+
+    def prims(self):
+        mst = set()
+        init_vertex = self.edges[0][0]
+        tree_vertices = {init_vertex}
+        while len(mst) != nvertices - 1:
+            min_edge = None
+            min_edge_weight = 9999 # hacky
+            # find min weight edge u, v
+            for u, v, w in self.edges:
+                # only need to check one way as each edge is duplicated
+                # would not work on directed graph
+                if u in tree_vertices and v not in tree_vertices:
+                    if w < min_edge_weight:
+                        min_edge = (u, v, w)
+                        min_edge_weight = w
+            # add v to tree vertices
+            tree_vertices.add(min_edge[1])
+            # add edge to mst
+            mst.add(min_edge)
+
+        return mst
 
     def __repr__(self):
         return '\n'.join(map(str, self.edges))
@@ -110,7 +132,7 @@ def read_from_file(fname):
             v2 = v2.strip()
             # convert weight into numeric value
             weight = float(weight)
-            # append two tuples as the graph is undirected 
+            # append two tuples as the graph is undirected
             edges.append((v1, v2, weight))
             edges.append((v2, v1, weight))
             if v1 not in vertices:
@@ -123,8 +145,11 @@ if __name__ == '__main__':
     if len(argv) == 1:
         print('usage: python3 graph.py <file name>')
         exit()
-    graph = read_from_file(argv[1]).convert_to_adj()
-    print(graph)
+
+    graph = read_from_file(argv[1])
+    # Uncomment for adj list
+    #graph = graph.convert_to_adj()
+    
     mst = graph.prims()
     total_weight = 0
     print("Minimum Spanning Tree")
