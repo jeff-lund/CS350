@@ -1,4 +1,6 @@
+import math
 from sys import argv, exit
+import argparse
 from heap import Heap
 
 class AdjVertex:
@@ -95,7 +97,7 @@ class GraphEL:
         tree_vertices = {init_vertex}
         while len(mst) != self.nvertices - 1:
             min_edge = None
-            min_edge_weight = 9999 # hacky
+            min_edge_weight = math.inf
             # find min weight edge u, v
             for u, v, w in self.edges:
                 # only need to check one way as each edge is duplicated
