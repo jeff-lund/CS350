@@ -144,14 +144,21 @@ def read_from_file(fname):
     return GraphEL(len(vertices), edges)
 
 if __name__ == '__main__':
-    if len(argv) == 1:
-        print('usage: python3 graph.py <file name>')
-        exit()
+    # Parsing command line options
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-e', '--edgelist', action='store_true', 
+            default=True, help='Use edge list representation')
+    parser.add_argument('-a', '--adjlist', action='store_true', 
+            default=False, help='Use adjacency list representation')
+    parser.add_argument('-f', '--file', action='store', help='file to read graph from')
+    args = parser.parse_args()
 
-    graph = read_from_file(argv[1])
-    # Uncomment for adj list
-    #graph = graph.convert_to_adj()
-
+    # Create graph in desired form
+    graph = read_from_file(args.file)
+    if args.adjlist:
+        graph = graph.convert_to_adj()
+    
+    # Get MST of input graph
     mst = graph.prims()
     total_weight = 0
     print("Minimum Spanning Tree")
