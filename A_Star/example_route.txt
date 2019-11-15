@@ -1,0 +1,4 @@
+# Portland to Springfield
+
+Portland -> Vancouver_WA -> Spokane -> Chicago -> Cleveland -> Pittsburgh -> Philadelphia -> New_York_City -> New_Haven -> Springfield
+Total distance traveled: 3175.7
