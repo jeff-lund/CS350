@@ -170,5 +170,7 @@ int main(int argc, char** argv)
   Graph *g = process_file();
   float distance = a_star(g, start, goal);
   cout << "Total distance traveled: " << distance << "." << endl;
+
+  delete g;
   return 0;
 }
