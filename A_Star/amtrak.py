@@ -1,12 +1,12 @@
 import sys
 import math
 
-def reconstruct_path(cameFrom, current, distance):
+def reconstruct_path(cameFrom, current):
     path = [current]
     while current in cameFrom.keys():
-        current, d = cameFrom[current]
+        current = cameFrom[current]
         path.append(current)
-    return list(reversed(path)), distance
+    return list(reversed(path))
 
 def a_star(start, goal, graph, heuristic):
     '''
@@ -35,7 +35,7 @@ def a_star(start, goal, graph, heuristic):
     while openSet:
         current = min([(fScore[node], node) for node in openSet])[1]
         if current == goal:
-            return reconstruct_path(cameFrom, current, gScore[current])
+            return reconstruct_path(cameFrom, current), gScore[current]
         openSet.remove(current)
         for cur, adj, cost in edge_list:
             # found an neighbor edge
@@ -47,7 +47,7 @@ def a_star(start, goal, graph, heuristic):
                 tenative = gScore[current] + cost
                 # add/replace the neighbors values if we found a shorter path
                 if tenative < gScore[adj]:
-                    cameFrom[adj] = (current, cost)
+                    cameFrom[adj] = current
                     gScore[adj] = tenative
                     fScore[adj] = gScore[adj] + heuristic[adj][goal]
                     openSet.add(adj)
