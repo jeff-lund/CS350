@@ -1,13 +1,11 @@
 import sys
 import math
 
-def reconstruct_path(cameFrom, current):
+def reconstruct_path(cameFrom, current, distance):
     path = [current]
-    distance = 0
     while current in cameFrom.keys():
         current, d = cameFrom[current]
         path.append(current)
-        distance += d
     return list(reversed(path)), distance
 
 def a_star(start, goal, graph, heuristic):
@@ -37,7 +35,7 @@ def a_star(start, goal, graph, heuristic):
     while openSet:
         current = min([(fScore[node], node) for node in openSet])[1]
         if current == goal:
-            return reconstruct_path(cameFrom, current)
+            return reconstruct_path(cameFrom, current, fScore[current])
         openSet.remove(current)
         for cur, adj, cost in edge_list:
             # found an neighbor edge
