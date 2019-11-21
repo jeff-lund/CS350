@@ -1,50 +1,45 @@
-class TreeNode:
-    def __init__(self, val):
-        self.val = val
-        self.parent = None
-
-    def attach(self, parent):
-        self.parent = parent
-
-    def __repr__(self):
-        if self.parent == None:
-            p = "None"
-        else:
-            p = str(self.parent.val)
-        return "{} -> {}".format(str(self.val), p)
-
 class UnionFind:
     def __init__(self):
-        self.refs = {}
-        self.trees = []
+        self.trees = {}
     
     def makeset(self, x):
         # Keys must be unique
-        if x in self.refs:
+        if x in self.trees:
             raise KeyError
-        self.refs[x] = len(self.trees) 
-        self.trees.append(TreeNode(x))
+        self.trees[x] = None
 
     def find(self, x):
-        current = self.trees[self.refs[x]]
-        while current.parent != None:
-            current = current.parent
-        return current.val
+        while self.trees[x] != None:
+            x = self.trees[x]
+        return x
     
     def union(self, x, y):
-        parent_x = self.trees[self.refs[self.find(x)]]
-        parent_y = self.trees[self.refs[self.find(y)]]
-        parent_x.attach(parent_y)
+        parent_x = self.find(x)
+        parent_y = self.find(y)
+        self.trees[parent_x] = parent_y
 
+    # magic methods - operator overloading
+    # overloads printing of UnionFind objects
     def __repr__(self):
-        return ', '.join(map(str, self.trees))
+        ret = ""
+        for k, v in self.trees.items():
+            ret += str(k) + ' -> ' + str(v) + ', '
+        return ret
 
+    # overloads len function, returns number of elements 
+    def __len__(self):
+        return len(self.trees)
+
+    # overloads 'in' keyword usage. 'Portland' in UF will now work
+    def __contains__(self, item):
+        return item in self.trees
 
 if __name__ == '__main__':
     u = UnionFind()
     u.makeset('apple')
     u.makeset('tree')
     u.makeset('hatchet')
+    print('bool check:', 'tree' in u)
     print(u)
     u.union('apple', 'tree')
     print(u)

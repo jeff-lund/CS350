@@ -161,8 +161,8 @@ if __name__ == '__main__':
     # Get MST of input graph
     mst = graph.prims()
     total_weight = 0
-    print("Minimum Spanning Tree")
-    print('-' * 80)
+    mst = list(mst)
+    mst.sort(key=lambda x : x[2])
     for edge in mst:
         print(edge)
         total_weight += edge[2]
