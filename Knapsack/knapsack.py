@@ -1,7 +1,7 @@
 import random
 from sys import argv
 
-WAIT = True
+WAIT = False
 memo = []
 call_count = 0
 hit_count = 0
@@ -34,10 +34,8 @@ def memo_sack(W, V, C, i, j):
 
 C = 10
 n = 4
-#W = [6, 9, 2, 5]
-#V = [5, 6, 1, 4]
-W = [5, 4, 6, 3]
-V = [1, 4, 3, 5]
+V = [6, 9, 2, 5]
+W = [5, 6, 1, 4]
 memo = [[None for _ in range(C + 1)] for __ in range(n + 1)]
 for i in range(C + 1):
     memo[0][i] = 0
