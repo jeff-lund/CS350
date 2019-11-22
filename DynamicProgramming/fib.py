@@ -1,7 +1,5 @@
 from sys import argv
-
 count = 0
-
 def fib(n):
     global count
     count += 1
@@ -18,4 +16,4 @@ if __name__ == '__main__':
     else:
         n = int(argv[1])
         print("The {}th fibonnaci number is {}".format(n, fib(n)))
-        print("Total calls made:", count)
+        print("Total call:", count)
