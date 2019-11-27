@@ -32,10 +32,13 @@ def memo_sack(W, V, C, i, j):
     return memo[i][j]
 
 
-C = 10
-n = 4
-V = [6, 9, 2, 5]
-W = [5, 6, 1, 4]
+C = 20
+n = 10
+V = [random.randint(1, 200) for _ in range(n)]
+W = [random.randint(1, 30) for _ in range(n)]
+print(V)
+print(W)
+input()
 memo = [[None for _ in range(C + 1)] for __ in range(n + 1)]
 for i in range(C + 1):
     memo[0][i] = 0
