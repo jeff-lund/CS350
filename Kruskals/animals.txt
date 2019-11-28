@@ -1,0 +1,16 @@
+bear, wolverine, 10
+panther, jaguar, 5
+leopard, bear, 14
+pelican, wolf, 8
+pelican, bear, 12
+quokka, bear, 7
+quokka, wolverine, 18
+penguin, wolf, 4
+penguin, bear, 16
+hedgehog, wolverine, 9
+hedgehog, wolf, 19
+badger, hedgehog, 20
+badger, pelican, 15
+badger, quokka, 6
+cobra, pelican, 4
+cobra, jaguar, 22
