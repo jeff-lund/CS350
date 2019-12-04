@@ -1,3 +1,5 @@
+import sys 
+from random import randint
 RED = '\033[1;31m'
 RESET = '\033[0m'
 
@@ -46,11 +48,22 @@ def collect_litter(maze):
         print(' '.join(map(str, maze[i])), '\t', dp[i])
 
     return dp[nrow - 1][ncol - 1]
-
+'''
 maze = [[0,0,0,0,1,0],
         [0,1,0,1,0,0],
         [0,0,0,1,0,1],
         [0,0,1,0,0,1],
         [1,0,0,0,1,0]]
+'''
+n = int(sys.argv[1])
+maze = [[0 for _ in range(n)] for _ in range(n)]
+lcount = n*n // randint(3, 7)
+while lcount:
+    x = randint(0, n - 1)
+    y = randint(0, n - 1)
+    if maze[x][y] == 0:
+        maze[x][y] += 1
+        lcount -= 1
+
 max_litter = collect_litter(maze)
 print("maximum amount of litter that can be collected", max_litter)
