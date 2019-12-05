@@ -23,7 +23,6 @@ def dfs(g):
 def twice_around(g):
     mst = g.prims()
     walk = dfs(mst)
-    seen = set()
     rwalk = []
     for v in walk:
         if v not in rwalk:
