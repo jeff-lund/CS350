@@ -10,7 +10,9 @@ class Vertex:
     
     def __repr__(self):
         ret = str(self.val) + ' : '
-        ret += ', '.join(map(str, map(lambda x: x.val, self.neighbors)))
+        ret += ', '.join(map
+                (str, 
+                    map(lambda x: x.val, self.neighbors)))
         return ret
 
 class Graph:
@@ -47,6 +49,8 @@ def dfs_helper(g, v):
     for n in v.neighbors:
         if n not in visited:
             dfs_helper(g, n)
+    # add vertex to walk once we have finished 
+    # processing all it's neighbors
     walk.append(v.val)
 
 def dfs(g):
@@ -57,6 +61,7 @@ def dfs(g):
     for v in g.vertices:
         if v not in visited:
             dfs_helper(g, v)
+    # The vertices will finish processing in reverse order
     walk.reverse()
     return walk
 
@@ -72,9 +77,13 @@ def kahns(g):
     walk = []
     while len(walk) != g.nvertices:
         for v, c in counts.items():
+            # A count of 0 means there are no incoming 
+            # edges so we have found a source
             if c == 0:
                 walk.append(v.val)
                 counts[v] = -1
+                # Removing the source means we need to update the
+                # counts of all the neighbors
                 for n in v.neighbors:
                     counts[n] -= 1
                 break
