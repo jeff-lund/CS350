@@ -77,6 +77,10 @@ def kahns(g):
                 counts[v] = -1
                 for n in v.neighbors:
                     counts[n] -= 1
+                break
+        else:
+            print("Toposort does not exist, graph is cyclic")
+            return []
     return walk
 
 if __name__ == '__main__':
